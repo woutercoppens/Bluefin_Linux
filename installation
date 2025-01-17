@@ -1,0 +1,3 @@
+sudo rpm-ostree kargs --append='pcie_aspm=off'
+
+https://discussion.fedoraproject.org/t/tip-lower-wifi-latency-by-disabling-wifi-power-management/74534
