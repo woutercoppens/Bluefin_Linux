@@ -1,0 +1,28 @@
+[Unit]
+Description=the ComfyUI container
+After=ollama.container
+Requires=ollama.container
+
+[Container]
+ContainerName = "comfyui-cu124"
+Image = "docker.io/yanwk/comfyui-boot:cu124-slim"
+AutoUpdate=registry
+
+PublishPort = "8188:8188"
+
+SecurityLabelDisable=true
+Volume = %h/.containers/comfyui:/root
+
+# Environment=""
+Environment=CLI_ARGS="--fast"
+
+AddDevice=nvidia.com/gpu=all
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+# Ensure that the dir exists
+ExecStartPre=-mkdir -p %h/.containers/comfyui
+
+# [Install]
+# WantedBy=multi-user.target default.target

@@ -1,0 +1,23 @@
+[Unit]
+Description=SearxNG container
+Requires=searxng-valkey.service
+After=network-online.target
+
+[Container]
+Pod=searxng.pod
+ContainerName = "searxng-web"
+Image = "docker.io/searxng/searxng:latest"
+AutoUpdate=registry
+
+Volume = %h/.containers/searxng/web:/etc/searxng:z
+
+Timezone=Europe/Brussels
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+# Ensure that the dir exists
+ExecStartPre=-mkdir -p %h/.containers/searxng/web
+
+[Install]
+WantedBy=multi-user.target default.target

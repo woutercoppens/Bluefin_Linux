@@ -1,0 +1,6 @@
+[Pod]
+Network=podman
+IP=10.88.0.10
+PodName=postgresql
+PublishPort=5432:5432
+PublishPort=5050:5050
