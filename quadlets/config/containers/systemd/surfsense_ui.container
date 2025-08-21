@@ -1,0 +1,23 @@
+[Unit]
+Description=SurfSense Web
+After=surfsense_backend.service
+Requires=surfsense_backend.service
+
+[Container]
+ContainerName = "surfsense_ui"
+HostName = "surfsense_ui"
+Image = "ghcr.io/modsetter/surfsense_ui:latest"
+AutoUpdate=registry
+
+Network=mynet
+PublishPort = "3001:3000"
+
+EnvironmentFile = %h/.containers/surfsense/frontend.env
+
+
+[Service]
+Restart=always
+TimeoutStartSec=300
+
+# [Install]
+# WantedBy=default.target

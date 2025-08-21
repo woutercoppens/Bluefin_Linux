@@ -1,0 +1,26 @@
+[Unit]
+Description=SurfSense Backend
+After=pgvector.service
+Requires=pgvector.service
+
+[Container]
+ContainerName = "surfsense_backend"
+HostName = "surfsense_backend"
+Image = "ghcr.io/modsetter/surfsense_backend:latest"
+AutoUpdate=registry
+
+Network=mynet
+PublishPort = "8000:8000"
+
+# SecurityLabelDisable=true
+# Volume = ./surfsense_backend:/app
+
+EnvironmentFile = %h/.containers/surfsense/backend.env
+
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+# [Install]
+# WantedBy=default.target

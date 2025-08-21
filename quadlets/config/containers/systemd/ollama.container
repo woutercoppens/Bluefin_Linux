@@ -1,0 +1,41 @@
+[Unit]
+Description=The Ollama container
+# After=podman-user-wait-network-online.service
+Wants=network-online.target
+After=network-online.target
+After=local-fs.target
+
+[Container]
+ContainerName = "ollama"
+HostName = "ollama"
+Image = "docker.io/ollama/ollama:latest"
+AutoUpdate=registry
+
+Network=mynet
+PublishPort = "11434:11434"
+
+SecurityLabelDisable=true
+Volume = %h/.containers/ollama:/root/.ollama:z
+
+Environment="OLLAMA_HOST=0.0.0.0"
+
+# HealthCmd=CMD-SHELL curl --fail http://localhost:11434/ || exit 1
+HealthCmd=CMD-SHELL ollama --version || exit 1
+HealthInterval=10s
+HealthRetries=3
+HealthStartPeriod=20s
+HealthTimeout=30s
+
+AddDevice=nvidia.com/gpu=all
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+# Ensure that the dir exists
+ExecStartPre=mkdir -p %h/.containers/ollama
+# Always pull the latest version on boot
+# ExecStartPre=podman pull docker.io/ollama/ollama:latest
+
+
+[Install]
+WantedBy=multi-user.target default.target

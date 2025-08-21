@@ -1,0 +1,34 @@
+[Unit]
+Description=the docling container
+After=ollama.container
+Requires=ollama.container
+
+[Container]
+ContainerName = "docling"
+HostName = "docling"
+# See https://github.com/docling-project/docling-serve for available images
+# CPU
+Image = "quay.io/docling-project/docling-serve:latest" 
+# GPU
+#Image = "quay.io/docling-project/docling-serve-cu128:latest" 
+AutoUpdate=registry
+
+Network=mynet
+PublishPort=5001:5001
+
+EnvironmentFile = %h/.containers/docling.env
+
+HealthCmd=CMD-SHELL curl --fail http://localhost:5001/health || exit 1
+HealthInterval=30s
+HealthRetries=5
+HealthStartPeriod=20s
+HealthTimeout=5s
+
+# AddDevice=nvidia.com/gpu=all
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+
+[Install]
+WantedBy=default.target

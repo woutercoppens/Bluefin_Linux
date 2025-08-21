@@ -1,0 +1,31 @@
+[Unit]
+Description=pgvector
+# After=podman-user-wait-network-online.service
+Wants=network-online.target
+After=network-online.target
+After=local-fs.target
+
+[Container]
+ContainerName = "pgvector"
+HostName = "pgvector"
+Image = "docker.io/pgvector/pgvector:pg17"
+AutoUpdate=registry
+
+Network=mynet
+PublishPort = "5432:5432"
+
+Volume = %h/.containers/pgvector:/var/lib/postgresql/data:Z
+
+EnvironmentFile = %h/.containers/pgvector.env
+
+HealthCmd=CMD-SHELL pg_isready -U postgres -d postgres || exit 1
+HealthInterval=10s
+HealthRetries=3
+HealthStartPeriod=20s
+HealthTimeout=30s
+
+[Service]
+Restart=always
+
+[Install]
+WantedBy=multi-user.target default.target

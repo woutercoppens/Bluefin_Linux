@@ -1,0 +1,15 @@
+[Unit]
+Description=My container network
+# This is systemd syntax to wait for the network to be online before starting this service:
+After=network-online.target
+ 
+[Network]
+NetworkName=mynet
+IPv6=true
+# These are optional, podman will just create it randomly otherwise.
+# Subnet=10.89.0.0/24
+# Gateway=10.89.0.1
+# DNS=9.9.9.9
+ 
+[Install]
+WantedBy=default.target

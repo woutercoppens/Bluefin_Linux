@@ -1,0 +1,35 @@
+[Unit]
+Description=SearxNG Valkey container
+# After=podman-user-wait-network-online.service
+Wants=network-online.target
+After=network-online.target
+After=local-fs.target
+
+[Container]
+ContainerName = "searxngvalkey"
+HostName = "searxngvalkey" #Not it a pod
+Image = "docker.io/valkey/valkey:8-alpine"
+Exec=valkey-server --save 30 1 --loglevel warning
+AutoUpdate=registry
+
+Network=mynet
+
+Volume = %h/.containers/searxng/valkey:/data:z
+
+HealthCmd=["/usr/local/bin/redis-cli", "ping"]
+HealthStartPeriod=30s
+HealthInterval=10s
+HealthTimeout=5s
+HealthRetries=5
+Notify=healthy
+
+Timezone=Europe/Brussels
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+# Ensure that the dir exists
+ExecStartPre=-mkdir -p %h/.containers/searxng/valkey
+
+[Install]
+WantedBy=multi-user.target default.target

@@ -1,0 +1,36 @@
+[Unit]
+Description=PgAdmin container
+After=network-online.target
+Requires=pgvector.service
+
+[Container]
+ContainerName = "pgadmin"
+HostName = "pgadmin"
+HostName = "pgadmin"
+Image = "docker.io/dpage/pgadmin4:latest"
+AutoUpdate=registry
+
+Network=mynet
+PublishPort=5055:5055
+
+# SecurityLabelDisable=true
+# Volume = %h/.containers/pgadmin:/var/lib/pgadmin:z,U
+# User=5055:5055
+Volume = %h/.containers/pgadmin:/var/lib/pgadmin
+
+EnvironmentFile=%h/.containers/pgadmin.env
+
+HealthCmd=CMD-SHELL wget -O - http://localhost:5055/misc/ping || exit 1
+HealthInterval=30s
+HealthRetries=5
+HealthStartPeriod=20s
+HealthTimeout=30s
+
+[Service]
+Restart=always
+TimeoutStartSec=900
+# Ensure that the dir exists
+#ExecStartPre=-mkdir -p %h/.containers/pgadmin
+
+[Install]
+WantedBy=multi-user.target default.target
