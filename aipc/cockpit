@@ -1,0 +1,7 @@
+rpm-ostree install cockpit-ws cockpit-files
+
+echo 'PasswordAuthentication yes' | sudo tee /etc/ssh/sshd_config.d/02-enable-passwords.conf
+sudo systemctl try-restart sshd
+sudo systemctl enable --now cockpit.socket
+sudo firewall-cmd --add-service=cockpit
+sudo firewall-cmd --add-service=cockpit --permanent
