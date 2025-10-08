@@ -1,0 +1,3 @@
+brew install neovim devcontainer
+brew install lazyjournal
+brew install podman-tui
