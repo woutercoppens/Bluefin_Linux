@@ -3,4 +3,5 @@
 # sudo -u gdm dbus-run-session gsettings set org.gnome.settings-daemon.plugins.power sleep-inactive-battery-type 'nothing'
 
 
-systemctl mask --now nvidia-powerd.service
+sudo systemctl mask --now nvidia-powerd.service
+sudo systemctl mask systemd-{suspend,suspend-then-hibernate,hibernate}.service
