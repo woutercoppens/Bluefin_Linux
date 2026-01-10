@@ -1,2 +1,4 @@
 https://universal-blue.discourse.group/t/how-to-enable-local-lookups-for-ucore/9965/4
 
+# Enable podman.socket
+systemctl enable --now podman.socket
