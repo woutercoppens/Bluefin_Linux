@@ -1,0 +1,13 @@
+# https://github.com/ublue-os/bluefin/issues/3999
+
+sudo tee /etc/ssh/sshd_config.d/02-enable-passwords.conf >/dev/null <<'EOF'
+# File managed manually for Cockpit
+PasswordAuthentication yes
+EOF
+
+sudo podman pull quay.io/cockpit/ws:latest
+
+sudo podman container runlabel INSTALL quay.io/cockpit/ws
+
+sudo systemctl enable --now cockpit.service
+sudo podman start cockpit-ws
