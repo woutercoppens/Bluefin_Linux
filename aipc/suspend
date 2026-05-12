@@ -5,3 +5,27 @@
 
 sudo systemctl mask --now nvidia-powerd.service
 sudo systemctl mask systemd-{suspend,suspend-then-hibernate,hibernate}.service
+
+sudo mkdir -p /etc/dconf/db/gdm.d/
+sudo tee /etc/dconf/db/gdm.d/01-disable-suspend << 'EOF'
+[org/gnome/settings-daemon/plugins/power]
+sleep-inactive-ac-type='nothing'
+sleep-inactive-battery-type='nothing'
+EOF
+
+sudo dconf update
+
+sudo tee -a /etc/dconf/db/gdm.d/01-disable-suspend << 'EOF'
+
+[org/gnome/desktop/session]
+idle-delay=uint32 0
+EOF
+
+sudo mkdir -p /etc/systemd/logind.conf.d/
+sudo tee /etc/systemd/logind.conf.d/99-no-suspend.conf << 'EOF'
+[Login]
+HandleSuspendKey=ignore
+HandleLidSwitch=ignore
+IdleAction=ignore
+EOF
+sudo systemctl restart systemd-logind
