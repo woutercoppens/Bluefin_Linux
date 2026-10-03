@@ -23,3 +23,7 @@ sudo systemctl enable --now tailscaled
 sudo tailscale up
 
 sudo rpm-ostree install rocm-smi
+
+#install homebrew
+sudo rpm-ostree install gcc make
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
