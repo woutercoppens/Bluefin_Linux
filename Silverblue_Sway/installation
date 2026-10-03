@@ -13,4 +13,6 @@ echo 'input type:keyboard {
   xkb_layout "be"
 }' | sudo tee /etc/sway/config.d/50-keyboard.conf
 
+sudo fwupdmgr update
+
 sudo rpm-ostree install rocm-smi
