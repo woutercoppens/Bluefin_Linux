@@ -1,0 +1,16 @@
+sudo rpm-ostree update
+sudo systemctl reboot
+localectl set-keymap be
+localectl set-x11-keymap be
+localectl status
+hostnamectl hostname aipc
+sudo systemctl enable --now sshd
+sudo systemctl disable --now firewalld
+
+sudo curl -Lo /etc/yum.repos.d/fedora-rawhide.repo https://src.fedoraproject.org/rpms/fedora-repos/raw/rawhide/f/fedora-rawhide.repo
+
+echo 'input type:keyboard {
+  xkb_layout "be"
+}' | sudo tee /etc/sway/config.d/50-keyboard.conf
+
+sudo rpm-ostree install rocm-smi
