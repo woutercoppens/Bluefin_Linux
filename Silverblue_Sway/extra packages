@@ -14,5 +14,4 @@ cockpit-storaged
 cockpit-system
 cockpit-ws
 podman-compose
-podman-machine
 podman-tui
