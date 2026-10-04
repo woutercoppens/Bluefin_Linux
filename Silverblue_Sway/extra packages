@@ -6,7 +6,6 @@ btop
 nvtop
 distrobox
 cockpit-bridge
-cockpit-machines
 cockpit-networkmanager
 cockpit-ostree
 cockpit-podman
