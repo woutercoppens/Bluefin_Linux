@@ -1,4 +1,15 @@
-curl -O https://download.docker.com/linux/fedora/docker-ce.repo
-sudo install -o 0 -g 0 -m644 docker-ce.repo /etc/yum.repos.d/docker-ce.repo
+#curl -O https://download.docker.com/linux/fedora/docker-ce.repo
+#sudo install -o 0 -g 0 -m644 docker-ce.repo /etc/yum.repos.d/docker-ce.repo
+#sudo rpm-ostree install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-model-plugin
 
-sudo rpm-ostree install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-model-plugin
+ostree remote add docker-ce https://download.docker.com/linux/fedora/docker-ce.repo
+rpm-ostree cleanup -m
+rpm-ostree refresh-md
+rpm-ostree install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-model-plugin
+sudo rpm-ostree apply-live --allow-replacement
+
+GROUP="docker"
+grep -E "^$GROUP:" /usr/lib/group | sudo tee -a /etc/group && sudo usermod -aG "$GROUP" "$USER"
+
+# after reboot (logout _might_ be enough):
+sudo systemctl enable --now docker.service
