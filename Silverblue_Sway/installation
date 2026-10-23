@@ -5,7 +5,6 @@ localectl set-x11-keymap be
 localectl status
 hostnamectl hostname aipc
 sudo systemctl enable --now sshd
-sudo systemctl disable --now firewalld
 
 sudo curl -Lo /etc/yum.repos.d/fedora-rawhide.repo https://src.fedoraproject.org/rpms/fedora-repos/raw/rawhide/f/fedora-rawhide.repo
 
@@ -29,3 +28,7 @@ sudo rpm-ostree install gcc make
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
 sudo setsebool -P container_use_devices 1
+
+
+sudo firewall-cmd --permanent --add-service=cockpit
+sudo firewall-cmd --permanent --add-port=4000/tcp
