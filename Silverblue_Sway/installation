@@ -27,3 +27,5 @@ sudo rpm-ostree install rocm-smi
 #install homebrew
 sudo rpm-ostree install gcc make
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+sudo setsebool -P container_use_devices 1
